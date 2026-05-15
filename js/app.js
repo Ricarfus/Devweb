@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Auth validation
     const sessionData = localStorage.getItem('gametrackk_session');
     if (!sessionData) {
         window.location.href = 'login.html';
@@ -9,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const user = JSON.parse(sessionData);
 
-    // Populate user profile in sidebar
     const userProfile = document.getElementById('user-profile');
     if (userProfile) {
         const initial = user.username.charAt(0).toUpperCase();
@@ -21,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     }
 
-    // Logout
+
     const logoutBtn = document.getElementById('logout-btn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
@@ -30,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Tab Navigation
+
     const navItems = document.querySelectorAll('.nav-item');
     const tabPanes = document.querySelectorAll('.tab-pane');
 
@@ -38,13 +36,12 @@ document.addEventListener('DOMContentLoaded', () => {
         item.addEventListener('click', (e) => {
             e.preventDefault();
 
-            // Remove active from all navs
+
             navItems.forEach(nav => nav.classList.remove('active'));
 
-            // Hide all tabs
+
             tabPanes.forEach(pane => pane.classList.add('hidden'));
 
-            // Set current active
             item.classList.add('active');
             const tabId = item.getAttribute('data-tab');
             const targetPane = document.getElementById(`tab-${tabId}`);
@@ -54,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Specific Game Data with High Quality 2:3 Aspect Covers
+
     const games = [
         { title: "Apex Legends", cover: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1172470/library_600x900_2x.jpg", rating: 5 },
         { title: "Star Wars Jedi: Fallen Order", cover: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1172380/library_600x900_2x.jpg", rating: 5 },
@@ -93,13 +90,13 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     };
 
-    // Populate Discover Section rows
+
     const populateRow = (elementId, count) => {
         const el = document.getElementById(elementId);
         if (!el) return;
         let html = '';
 
-        // Grab 'count' random games to display in the row
+
         const shuffledGames = [...games].sort(() => 0.5 - Math.random());
 
         for (let i = 0; i < count; i++) {
@@ -112,7 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
     populateRow('suggested-games', 6);
     populateRow('online-games', 7);
 
-    // Populate My List Grid
     const populateGrid = () => {
         const el = document.getElementById('my-games-grid');
         if (!el) return;
@@ -125,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     populateGrid();
 
-    // Populate Social List
+
     const populateSocial = () => {
         const el = document.getElementById('friends-list');
         if (!el) return;
