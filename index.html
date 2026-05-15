@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gametrackk - Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="dashboard-page">
+
+    <!-- Auth check before parsing heavy DOM -->
+    <script>
+        if (!localStorage.getItem('gametrackk_session')) {
+            window.location.href = 'login.html';
+        }
+    </script>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Gametrackk</h2>
+                <button id="logout-btn" class="btn-logout">Logout</button>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="nav-item active" data-tab="discover">Discover Games</a></li>
+                    <li><a href="#" class="nav-item" data-tab="mylist">My List</a></li>
+                    <li><a href="#" class="nav-item" data-tab="social">Social</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile" id="user-profile">
+                <!-- Injected via JS -->
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Discover Tab -->
+            <section id="tab-discover" class="tab-pane active">
+                <h1 class="page-title">Discover Games</h1>
+
+                <div class="discovery-section">
+                    <h3>Popular this week</h3>
+                    <div class="game-flex-row" id="popular-games"></div>
+                </div>
+
+                <div class="discovery-section">
+                    <h3>Suggested for you</h3>
+                    <div class="game-flex-row" id="suggested-games"></div>
+                </div>
+
+                <div class="discovery-section">
+                    <h3>Online play</h3>
+                    <div class="game-flex-row" id="online-games"></div>
+                </div>
+            </section>
+
+            <!-- My List Tab -->
+            <section id="tab-mylist" class="tab-pane hidden">
+                <h1 class="page-title">My List</h1>
+                <div class="grid-container" id="my-games-grid">
+                    <!-- Grid of games with star ratings injected here -->
+                </div>
+            </section>
+
+            <!-- Social Tab -->
+            <section id="tab-social" class="tab-pane hidden">
+                <h1 class="page-title">Social</h1>
+                <div class="friends-container" id="friends-list">
+                    <!-- Steam-like friends list injected here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Main Application script -->
+    <script src="js/app.js"></script>
+</body>
+
+</html>
