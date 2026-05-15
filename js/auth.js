@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginError = document.getElementById('login-error');
     const registerError = document.getElementById('register-error');
 
-    // UI Switching
+
     if (showRegisterBtn) {
         showRegisterBtn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -32,9 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Helpers
+
     const hashPassword = (password) => {
-        // Simple mock hash using base64 and string manipulation
+
         return btoa(password + "gametrackk_salt");
     };
 
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const validatePassword = (password) => {
-        // At least 8 chars, 1 number, 1 special char
+
         const re = /^(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
         return re.test(password);
     };
@@ -60,22 +60,21 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('gametrackk_users', JSON.stringify(users));
     };
 
-    // Session validation
+
     const currentUser = localStorage.getItem('gametrackk_session');
 
-    // If we are on the login page but already logged in, redirect to index
+ 
     if (currentUser && window.location.pathname.includes('login.html')) {
         window.location.href = 'index.html';
         return;
     }
 
-    // If we are on any other page and not logged in, redirect to login
     if (!currentUser && !window.location.pathname.includes('login.html')) {
         window.location.href = 'login.html';
         return;
     }
 
-    // Register
+
     if (registerForm) {
         registerForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -121,13 +120,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             saveUser(newUser);
 
-            // Automatically log them in after registration
+
             localStorage.setItem('gametrackk_session', JSON.stringify({ id: newUser.id, username: newUser.username }));
             window.location.href = 'index.html';
         });
     }
 
-    // Login
+
     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -154,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Log them in
+
             localStorage.setItem('gametrackk_session', JSON.stringify({ id: user.id, username: user.username }));
             window.location.href = 'index.html';
         });
