@@ -1,0 +1,5 @@
+
+const SUPABASE_URL = 'https://ohorxnyrucnhnarlegfx.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ob3J4bnlydWNuaG5hcmxlZ2Z4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2OTg4OTksImV4cCI6MjA5NDI3NDg5OX0.x94Nls6YOlAPyZbLnhMaM6iBzLk2ZSi77QfUId_tYiA';
+
+window.db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
