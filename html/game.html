@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gametrackk - Game</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-page">
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Gametrackk</h2>
+                <button id="logout-btn" class="btn-logout">Logout</button>
+            </div>
+            <nav class="sidebar-nav"></nav>
+            <div class="user-profile" id="user-profile"></div>
+        </aside>
+
+        <main class="main-content">
+            <a href="../index.html" style="color: var(--text-link); text-decoration: none; display: inline-block; margin-bottom: 16px;">← Back</a>
+            <div id="game-detail"></div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase.js"></script>
+    <script src="../js/game.js"></script>
+</body>
+</html>
