@@ -1,37 +1,12 @@
 (async () => {
-    const { data: { session } } = await db.auth.getSession();
-    if (!session) {
-        window.location.href = 'login.html';
-        return;
-    }
-    const userId = session.user.id;
-
-    const profileEl = document.getElementById('user-profile');
-    const { data: profile } = await db
-        .from('profiles')
-        .select('username')
-        .eq('id', userId)
-        .single();
-
-    const username = profile?.username ?? '?';
-    const avatar = document.createElement('div');
-    avatar.className = 'avatar';
-    avatar.textContent = username.charAt(0).toUpperCase();
-    const nameEl = document.createElement('div');
-    nameEl.className = 'username';
-    nameEl.textContent = username;
-    profileEl.append(avatar, nameEl);
-
-    document.getElementById('logout-btn').addEventListener('click', async () => {
-        await db.auth.signOut();
-        window.location.href = 'login.html';
-    });
+    const userId = await initSidebar('login.html');
+    if (!userId) return;
 
     const params = new URLSearchParams(window.location.search);
-    const gameId = parseInt(params.get('id'), 10);
+    const gameId = Number.parseInt(params.get('id'), 10);
     const detailEl = document.getElementById('game-detail');
 
-    if (!gameId) {
+    if (Number.isNaN(gameId)) {
         detailEl.textContent = 'Game not found.';
         return;
     }
@@ -66,38 +41,28 @@
         detailEl.replaceChildren();
 
         const cover = document.createElement('img');
-        cover.className = 'game-cover';
+        cover.className = 'game-cover detail-cover';
         cover.src = game.cover_url;
         cover.alt = game.title;
-        cover.style.maxWidth = '240px';
-        cover.style.borderRadius = '8px';
-        cover.style.marginBottom = '16px';
 
         const title = document.createElement('h1');
-        title.className = 'page-title';
-        title.style.marginBottom = '8px';
+        title.className = 'page-title detail-title';
         title.textContent = game.title;
 
         const avgLine = document.createElement('div');
-        avgLine.className = 'star-rating';
-        avgLine.style.fontSize = '16px';
-        avgLine.style.marginBottom = '24px';
+        avgLine.className = 'star-rating detail-avg';
         avgLine.textContent = formatAvg(game.avg_rating, game.rating_count);
 
         const yourLabel = document.createElement('h3');
+        yourLabel.className = 'detail-rating-label';
         yourLabel.textContent = 'Your rating';
-        yourLabel.style.marginBottom = '8px';
 
         const starRow = document.createElement('div');
-        starRow.className = 'star-rating';
-        starRow.style.fontSize = '32px';
-        starRow.style.cursor = 'pointer';
-        starRow.style.userSelect = 'none';
+        starRow.className = 'star-rating detail-star-row';
 
         for (let i = 1; i <= 5; i++) {
             const star = document.createElement('span');
             star.textContent = i <= (currentStars ?? 0) ? '★' : '☆';
-            star.style.marginRight = '4px';
             star.addEventListener('click', () => handleStarClick(i));
             starRow.appendChild(star);
         }
@@ -114,6 +79,7 @@
         errEl.textContent = '';
 
         if (currentStars === n) {
+            // Clicking your current rating removes it
             const { error } = await db
                 .from('ratings')
                 .delete()
@@ -140,8 +106,9 @@
     }
 
     function formatAvg(avg, count) {
-        if (!count) return 'No ratings yet';
-        return `★ ${avg.toFixed(1)} — ${count} rating${count === 1 ? '' : 's'}`;
+        if (!Number(count)) return 'No ratings yet';
+        const value = Number(avg); // numeric columns can arrive as strings
+        return `★ ${value.toFixed(1)} — ${count} rating${Number(count) === 1 ? '' : 's'}`;
     }
 
     await loadGame();
