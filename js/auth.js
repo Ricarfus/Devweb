@@ -1,5 +1,3 @@
-
-
 (async () => {
 
     const { data: { session } } = await db.auth.getSession();
@@ -36,6 +34,7 @@
         signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             errorEl.textContent = '';
+            errorEl.classList.remove('success-text');
 
             const username = document.getElementById('signup-username').value.trim();
             const email = document.getElementById('signup-email').value.trim();
@@ -50,7 +49,7 @@
                 return;
             }
 
-            const { error } = await db.auth.signUp({
+            const { data, error } = await db.auth.signUp({
                 email,
                 password,
                 options: { data: { username } }
@@ -59,6 +58,16 @@
                 errorEl.textContent = error.message;
                 return;
             }
+
+            // If email confirmation is enabled in Supabase, signUp succeeds
+            // but returns no session. Redirecting to index.html would just
+            // bounce the user back here with no explanation.
+            if (!data.session) {
+                errorEl.classList.add('success-text');
+                errorEl.textContent = 'Check your email to confirm your account, then log in.';
+                return;
+            }
+
             window.location.href = '../index.html';
         });
     }
